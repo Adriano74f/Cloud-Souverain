@@ -11,5 +11,5 @@ window.CLOUD_CONFIG = {
   brand: "Cloud Souverain",
 
   // Adresse de contact affichée dans le pied de page
-  contactEmail: "contact@exemple.fr"
+  contactEmail: "adriano.ferreira-da-silva@git.swiss"
 };
