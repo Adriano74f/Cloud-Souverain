@@ -11,3 +11,7 @@ infra/data/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Notes personnelles contenant des mots de passe
+Mdp*.txt
+*.secret.txt
