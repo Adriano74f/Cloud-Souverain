@@ -88,7 +88,7 @@
 .files tbody tr:hover { background: var(--ink-50); }
 .col-size { width: 120px; }
 .col-date { width: 190px; }
-.col-actions { width: 150px; }
+.col-actions { width: 190px; }
 .name-cell { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .name-cell button { all: unset; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: var(--ink-900); }
 .name-cell button:hover { color: var(--brand-600); text-decoration: underline; }
@@ -104,6 +104,27 @@
 .state b { display: block; color: var(--ink-900); font-size: 1.05rem; margin-bottom: 4px; }
 .spinner { width: 28px; height: 28px; margin: 0 auto 12px; border-radius: 50%; border: 3px solid var(--ink-100); border-top-color: var(--brand-500); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Déplacement (glisser-déposer + choix du dossier) ---------- */
+.files tbody tr.dragging { opacity: .45; }
+.files tbody tr.drop-target td { background: var(--brand-100); }
+.files tbody tr.drop-target td:first-child { box-shadow: inset 3px 0 0 var(--brand-500); }
+.crumbs a.drop-target { background: var(--brand-100); color: var(--brand-600); }
+
+.move-card { max-width: 480px; }
+.move-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; font-size: .9rem; }
+.move-crumbs button { border: 0; background: none; padding: 2px 6px; border-radius: 6px; color: var(--ink-500); }
+.move-crumbs button:hover { background: var(--ink-100); color: var(--ink-900); }
+.move-crumbs button:last-child { color: var(--ink-900); font-weight: 600; }
+.move-crumbs .sep { color: var(--ink-200); }
+.move-list { list-style: none; margin: 0; padding: 4px; min-height: 140px; max-height: 280px; overflow-y: auto; border: 1px solid var(--ink-100); border-radius: 12px; }
+.move-list button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: 8px; background: none; color: var(--ink-900); text-align: left; }
+.move-list button:hover:not(:disabled) { background: var(--ink-50); }
+.move-list button:disabled { opacity: .45; cursor: not-allowed; }
+.move-list svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--brand-500); }
+.move-list span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.move-state { padding: 40px 10px; text-align: center; color: var(--ink-400); font-size: .9rem; }
+.move-state .spinner { margin-bottom: 0; }
 
 .drop-overlay { position: absolute; inset: 12px; z-index: 5; border-radius: var(--radius-lg); border: 2px dashed var(--brand-500); background: rgba(230, 236, 255, .88); display: grid; place-items: center; text-align: center; pointer-events: none; }
 .drop-overlay svg { width: 44px; height: 44px; margin: 0 auto 10px; color: var(--brand-600); }
@@ -152,7 +173,7 @@
   .topbar { gap: 12px; padding-inline: 16px; }
   .main { padding: 18px 16px 40px; }
   .col-size, .files td:nth-child(2) { display: none; }
-  .col-actions { width: 110px; }
+  .col-actions { width: 160px; }
   .files th, .files td { padding-inline: 12px; }
   .row-actions { opacity: 1; }
   .row-actions .icon-btn { width: 32px; height: 32px; }

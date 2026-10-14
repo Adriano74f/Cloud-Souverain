@@ -2,7 +2,7 @@
  * Page "Mes fichiers" : client WebDAV minimal pour Nextcloud.
  * Le navigateur parle directement au serveur (CORS autorisé par Nginx) :
  *   - OCS    /ocs/v2.php/cloud/user           -> profil + quota
- *   - WebDAV /remote.php/dav/files/<user>/... -> liste, envoi, téléchargement, renommage, suppression
+ *   - WebDAV /remote.php/dav/files/<user>/... -> liste, envoi, téléchargement, renommage, déplacement, suppression
  * Les identifiants restent dans sessionStorage (effacés à la fermeture de l'onglet).
  */
 (function () {
@@ -292,14 +292,14 @@
 
   function renderCrumbs() {
     var parts = currentPath.split("/").filter(Boolean);
-    var html = parts.length ? '<a href="#/">Tous les fichiers</a>' : '<span class="current">Tous les fichiers</span>';
+    var html = parts.length ? '<a href="#/" data-path="/">Tous les fichiers</a>' : '<span class="current">Tous les fichiers</span>';
     var acc = "";
     parts.forEach(function (p, i) {
       acc += "/" + p;
       html += '<span class="sep">/</span>';
       html += i === parts.length - 1
         ? '<span class="current" title="' + esc(p) + '">' + esc(p) + "</span>"
-        : '<a href="' + esc(hashFor(acc)) + '">' + esc(p) + "</a>";
+        : '<a href="' + esc(hashFor(acc)) + '" data-path="' + esc(acc) + '">' + esc(p) + "</a>";
     });
     $("crumbs").innerHTML = html;
   }
@@ -321,7 +321,7 @@
     $("file-rows").innerHTML = shown.map(function (it) {
       var k = fileKind(it.name, it.isDir);
       var idx = items.indexOf(it);
-      return "<tr>" +
+      return '<tr draggable="true" data-i="' + idx + '">' +
         '<td><div class="name-cell"><span class="ficon ' + k.cls + '">' + icon(k.icon) + "</span>" +
           '<button data-act="open" data-i="' + idx + '" title="' + esc(it.name) + '">' + esc(it.name) + "</button></div></td>" +
         '<td class="meta">' + (it.isDir ? (it.size != null ? formatSize(it.size) : "—") : formatSize(it.size)) + "</td>" +
@@ -329,6 +329,7 @@
         '<td><div class="row-actions">' +
           (it.isDir ? "" : '<button class="icon-btn" data-act="download" data-i="' + idx + '" title="Télécharger" aria-label="Télécharger ' + esc(it.name) + '">' + icon("i-download") + "</button>") +
           '<button class="icon-btn" data-act="rename" data-i="' + idx + '" title="Renommer" aria-label="Renommer ' + esc(it.name) + '">' + icon("i-edit") + "</button>" +
+          '<button class="icon-btn" data-act="move" data-i="' + idx + '" title="Déplacer" aria-label="Déplacer ' + esc(it.name) + '">' + icon("i-move") + "</button>" +
           '<button class="icon-btn danger" data-act="delete" data-i="' + idx + '" title="Supprimer" aria-label="Supprimer ' + esc(it.name) + '">' + icon("i-trash") + "</button>" +
         "</div></td>" +
       "</tr>";
@@ -350,6 +351,7 @@
     if (act === "open") it.isDir ? (location.hash = hashFor(it.path)) : download(it);
     else if (act === "download") download(it);
     else if (act === "rename") rename(it);
+    else if (act === "move") openMovePicker(it);
     else if (act === "delete") remove(it);
   }
 
@@ -415,6 +417,145 @@
       request("MKCOL", davUrl(joinPath(currentPath, name)))
         .then(function () { toast("Dossier créé."); return reload(); })
         .catch(function (err) { toast(err.message, true); });
+    });
+  }
+
+  // ---------------------------------------------------------------- déplacement
+
+  function parentDir(path) { return path.replace(/\/[^\/]*$/, "") || "/"; }
+
+  function folderLabel(path) { return path === "/" ? "Tous les fichiers" : path.split("/").pop(); }
+
+  // Vrai si "dir" est le dossier "it" lui-même ou l'un de ses sous-dossiers
+  function isInside(dir, it) { return it.isDir && (dir === it.path || dir.indexOf(it.path + "/") === 0); }
+
+  function moveItem(it, destDir) {
+    if (destDir === parentDir(it.path)) return toast("L'élément est déjà dans ce dossier.");
+    if (isInside(destDir, it)) return toast("Impossible de déplacer un dossier dans lui-même.", true);
+    request("MOVE", davUrl(it.path), { headers: { Destination: davUrl(joinPath(destDir, it.name)), Overwrite: "F" } })
+      .then(function () { toast("« " + it.name + " » déplacé vers « " + folderLabel(destDir) + " »."); return reload(); })
+      .catch(function (err) {
+        toast(err.status === 412 ? "« " + it.name + " » existe déjà dans le dossier de destination." : err.message, true);
+      });
+  }
+
+  // Fenêtre de choix du dossier de destination
+  var picker = null; // { item, path, folders }
+
+  function openMovePicker(it) {
+    picker = { item: it, path: currentPath, folders: [] };
+    $("move-title").textContent = "Déplacer « " + it.name + " »";
+    $("move-modal").hidden = false;
+    loadPicker(currentPath);
+    setTimeout(function () { $("move-cancel").focus(); }, 0);
+  }
+
+  function closeMovePicker() {
+    picker = null;
+    $("move-modal").hidden = true;
+  }
+
+  function loadPicker(path) {
+    var p = picker;
+    p.path = path;
+    p.folders = [];
+    renderPickerCrumbs();
+    $("move-ok").disabled = path === parentDir(p.item.path) || isInside(path, p.item);
+    $("move-list").innerHTML = '<li class="move-state"><div class="spinner"></div></li>';
+    listFolder(path)
+      .then(function (list) {
+        if (picker !== p || p.path !== path) return; // l'utilisateur a changé de dossier entre-temps
+        p.folders = list.filter(function (f) { return f.isDir; });
+        renderPickerList();
+      })
+      .catch(function (err) {
+        if (picker !== p || p.path !== path) return;
+        $("move-list").innerHTML = '<li class="move-state">' + esc(err.message || "Chargement impossible.") + "</li>";
+      });
+  }
+
+  function renderPickerCrumbs() {
+    var acc = "";
+    var html = '<button type="button" data-path="/">Tous les fichiers</button>';
+    picker.path.split("/").filter(Boolean).forEach(function (p) {
+      acc += "/" + p;
+      html += '<span class="sep">/</span><button type="button" data-path="' + esc(acc) + '">' + esc(p) + "</button>";
+    });
+    $("move-crumbs").innerHTML = html;
+  }
+
+  function renderPickerList() {
+    if (!picker.folders.length) {
+      $("move-list").innerHTML = '<li class="move-state">Aucun sous-dossier</li>';
+      return;
+    }
+    $("move-list").innerHTML = picker.folders.map(function (f, i) {
+      var self = f.path === picker.item.path;
+      return '<li><button type="button" data-i="' + i + '"' + (self ? " disabled" : "") + ">" +
+        icon("i-folder") + "<span>" + esc(f.name) + "</span></button></li>";
+    }).join("");
+  }
+
+  // Glisser-déposer d'une ligne sur un dossier de la liste ou du fil d'Ariane
+  var dragIndex = null;
+
+  function dropTargetFrom(e) {
+    if (dragIndex == null) return null;
+    var el = e.target.closest && e.target.closest("#file-rows tr[data-i], #crumbs a[data-path]");
+    if (!el) return null;
+    var it = items[dragIndex], path;
+    if (el.hasAttribute("data-path")) {
+      path = el.getAttribute("data-path");
+    } else {
+      var target = items[Number(el.getAttribute("data-i"))];
+      if (!target || !target.isDir || target === it) return null;
+      path = target.path;
+    }
+    if (path === parentDir(it.path) || isInside(path, it)) return null;
+    return { el: el, path: path };
+  }
+
+  function clearDropTargets() {
+    document.querySelectorAll(".drop-target, .dragging").forEach(function (el) {
+      el.classList.remove("drop-target", "dragging");
+    });
+  }
+
+  function setupRowDrag() {
+    $("file-rows").addEventListener("dragstart", function (e) {
+      var tr = e.target.closest && e.target.closest("tr[data-i]");
+      if (!tr) return;
+      dragIndex = Number(tr.getAttribute("data-i"));
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", items[dragIndex].name); // requis par Firefox
+      tr.classList.add("dragging");
+    });
+    document.addEventListener("dragend", function () { dragIndex = null; clearDropTargets(); });
+
+    [$("file-rows"), $("crumbs")].forEach(function (zone) {
+      zone.addEventListener("dragover", function (e) {
+        var t = dropTargetFrom(e);
+        if (!t) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        if (!t.el.classList.contains("drop-target")) {
+          document.querySelectorAll(".drop-target").forEach(function (el) { el.classList.remove("drop-target"); });
+          t.el.classList.add("drop-target");
+        }
+      });
+      zone.addEventListener("dragleave", function (e) {
+        var el = e.target.closest && e.target.closest(".drop-target");
+        if (el && !el.contains(e.relatedTarget)) el.classList.remove("drop-target");
+      });
+      zone.addEventListener("drop", function (e) {
+        var t = dropTargetFrom(e);
+        if (!t) return;
+        e.preventDefault();
+        var it = items[dragIndex];
+        dragIndex = null;
+        clearDropTargets();
+        moveItem(it, t.path);
+      });
     });
   }
 
@@ -584,11 +725,33 @@
     $("modal-form").addEventListener("submit", function (e) { e.preventDefault(); if (modalResolve) modalResolve(true); });
     $("modal-cancel").addEventListener("click", function () { if (modalResolve) modalResolve(false); });
     $("modal").addEventListener("click", function (e) { if (e.target === $("modal") && modalResolve) modalResolve(false); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modalResolve) modalResolve(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (modalResolve) modalResolve(false);
+      else if (picker) closeMovePicker();
+    });
+
+    $("move-crumbs").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-path]");
+      if (b && picker) loadPicker(b.getAttribute("data-path"));
+    });
+    $("move-list").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-i]");
+      if (b && !b.disabled && picker) loadPicker(picker.folders[Number(b.getAttribute("data-i"))].path);
+    });
+    $("move-ok").addEventListener("click", function () {
+      if (!picker) return;
+      var it = picker.item, dest = picker.path;
+      closeMovePicker();
+      moveItem(it, dest);
+    });
+    $("move-cancel").addEventListener("click", closeMovePicker);
+    $("move-modal").addEventListener("click", function (e) { if (e.target === $("move-modal")) closeMovePicker(); });
 
     window.addEventListener("hashchange", navigate);
     window.addEventListener("beforeunload", function (e) { if (uploading) { e.preventDefault(); e.returnValue = ""; } });
     setupDragDrop();
+    setupRowDrag();
 
     var saved = loadSession();
     if (saved && saved.server && saved.userId) {
