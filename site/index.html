@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cloud Souverain — Vos fichiers, chez vous</title>
+  <meta name="description" content="Cloud Souverain : stockage de fichiers privé, sans limite, hébergé sur votre propre infrastructure. L'alternative souveraine à Google Drive.">
+  <meta name="theme-color" content="#0b1220">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+    <symbol id="i-folder-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><path d="M12 10v6M9 13h6"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8M8 17h6"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.94a.5.5 0 0 0-.75-.43L16 10.2"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-infinity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/></symbol>
+    <symbol id="i-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></symbol>
+    <symbol id="i-wall" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v6M15 9v6M9 15v6"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.17 6.81a1 1 0 0 0-3.98-3.98L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-arrow-long" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 8h25M20 2l6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Accueil">
+      <span class="logo-mark"><svg><use href="#i-cloud"/></svg></span>
+      <span data-brand>Cloud Souverain</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#securite">Sécurité</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="fichiers.html" class="btn btn-ghost btn-sm">Mes fichiers</a>
+      <a href="#" class="btn btn-primary btn-sm" data-login>Se connecter</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+        <svg><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>Hébergé sur votre infrastructure</span>
+      <h1>Vos fichiers.<br><span class="grad">Votre serveur.</span><br>Vos règles.</h1>
+      <p class="hero-lead">Stockez, synchronisez et partagez vos documents sans limite d'espace, sur un cloud privé dont vous gardez le contrôle total. Aucune donnée ne quitte vos murs.</p>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary btn-lg" data-login>Accéder à mon cloud <svg><use href="#i-arrow-right"/></svg></a>
+        <a href="#fonctionnalites" class="btn btn-ghost btn-lg">Découvrir</a>
+      </div>
+      <div class="hero-proof">
+        <span><svg><use href="#i-check"/></svg>Stockage illimité</span>
+        <span><svg><use href="#i-check"/></svg>Chiffrement HTTPS</span>
+        <span><svg><use href="#i-check"/></svg>Open source</span>
+      </div>
+    </div>
+
+    <div class="mockup" aria-hidden="true">
+      <div class="mockup-bar">
+        <i></i><i></i><i></i>
+        <div class="url"><svg><use href="#i-lock"/></svg>cloud.mon-entreprise.fr</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-side">
+          <div class="active"><svg><use href="#i-folder"/></svg>Tous les fichiers</div>
+          <div><svg><use href="#i-clock"/></svg>Récents</div>
+          <div><svg><use href="#i-share"/></svg>Partagés</div>
+          <div><svg><use href="#i-trash"/></svg>Corbeille</div>
+          <span class="quota"><b>1,2 To utilisés</b>Espace illimité</span>
+        </div>
+        <div class="mockup-main">
+          <h4>Tous les fichiers</h4>
+          <div class="mock-row"><span class="ficon folder"><svg><use href="#i-folder"/></svg></span><span>Projets clients</span><small>24 éléments</small></div>
+          <div class="mock-row"><span class="ficon folder"><svg><use href="#i-folder"/></svg></span><span>Comptabilité 2026</span><small>118 éléments</small></div>
+          <div class="mock-row"><span class="ficon pdf"><svg><use href="#i-file-text"/></svg></span><span>Contrat-cadre.pdf</span><small>2,4 Mo</small></div>
+          <div class="mock-row"><span class="ficon img"><svg><use href="#i-image"/></svg></span><span>Maquette-accueil.png</span><small>8,1 Mo</small></div>
+          <div class="mock-row"><span class="ficon vid"><svg><use href="#i-video"/></svg></span><span>Présentation.mp4</span><small>1,3 Go</small></div>
+          <div class="mock-row"><span class="ficon doc"><svg><use href="#i-file"/></svg></span><span>Rapport annuel.docx</span><small>540 Ko</small></div>
+        </div>
+      </div>
+      <div class="mock-upload">
+        Envoi de <b>Sauvegarde-serveur.zip</b>
+        <div class="bar"><span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHIFFRES ============ -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat"><strong>∞</strong><span>Espace de stockage</span></div>
+    <div class="stat"><strong>100 %</strong><span>Données sur site</span></div>
+    <div class="stat"><strong>0 €</strong><span>Abonnement par utilisateur</span></div>
+    <div class="stat"><strong>24/7</strong><span>Accès sécurisé HTTPS</span></div>
+  </div>
+</section>
+
+<!-- ============ FONCTIONNALITÉS ============ -->
+<section class="section" id="fonctionnalites">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Fonctionnalités</span>
+      <h2>Tout ce que vous attendez d'un cloud moderne</h2>
+      <p>Une expérience aussi simple qu'un Drive grand public, avec la maîtrise d'une infrastructure privée.</p>
+    </div>
+    <div class="features">
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-infinity"/></svg></div>
+        <h3>Stockage sans limite</h3>
+        <p>La seule limite est la capacité de votre NAS. Ajoutez des disques, l'espace grandit avec vous, sans changer d'offre.</p>
+      </article>
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-key"/></svg></div>
+        <h3>Tous les droits, chez vous</h3>
+        <p>Vous êtes propriétaire du serveur et des données. Aucune analyse, aucun accès tiers, aucune dépendance à un fournisseur.</p>
+      </article>
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-share"/></svg></div>
+        <h3>Partage en un clic</h3>
+        <p>Créez des liens publics protégés par mot de passe et date d'expiration, ou partagez avec vos collaborateurs.</p>
+      </article>
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-sync"/></svg></div>
+        <h3>Synchronisation</h3>
+        <p>Clients Windows, macOS, Linux, Android et iOS : vos fichiers vous suivent sur tous vos appareils.</p>
+      </article>
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-users"/></svg></div>
+        <h3>Gestion des utilisateurs</h3>
+        <p>Comptes, groupes, quotas personnalisables et espaces d'équipe pour organiser le travail collaboratif.</p>
+      </article>
+      <article class="feature reveal">
+        <div class="feature-icon"><svg><use href="#i-clock"/></svg></div>
+        <h3>Versions & corbeille</h3>
+        <p>Restaurez une version antérieure d'un document ou récupérez un fichier supprimé par erreur.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FONCTIONNEMENT ============ -->
+<section class="section section-alt" id="fonctionnement">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Fonctionnement</span>
+      <h2>Une architecture simple et maîtrisée</h2>
+      <p>Chaque brique est hébergée et administrée en interne, de l'accès réseau jusqu'au disque.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Portail web</h3>
+        <p>Ce site présente le service et redirige vers l'espace de connexion sécurisé.</p>
+        <span class="tag">GitHub Pages</span>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Pare-feu</h3>
+        <p>Seul le port HTTPS 443 est exposé. L'administration reste sur le réseau interne.</p>
+        <span class="tag">FortiGate</span>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>Application cloud</h3>
+        <p>Nextcloud tourne dans des conteneurs Docker derrière un reverse proxy Nginx.</p>
+        <span class="tag">Docker · Nginx · Nextcloud</span>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <h3>Stockage</h3>
+        <p>Les fichiers sont stockés sur le NAS, avec sauvegardes et snapshots quotidiens.</p>
+        <span class="tag">NAS Synology</span>
+      </div>
+    </div>
+
+    <div class="archi reveal" role="img" aria-label="Schéma : Utilisateur, puis pare-feu en HTTPS, puis Nginx, puis Nextcloud, puis NAS en NFS">
+      <div class="archi-flow">
+        <div class="archi-node"><svg><use href="#i-globe"/></svg><b>Utilisateur</b><small>Navigateur / appli</small></div>
+        <div class="archi-arrow"><svg><use href="#i-arrow-long"/></svg>HTTPS 443</div>
+        <div class="archi-node"><svg><use href="#i-wall"/></svg><b>FortiGate</b><small>Pare-feu · NAT</small></div>
+        <div class="archi-arrow"><svg><use href="#i-arrow-long"/></svg>TLS</div>
+        <div class="archi-node"><svg><use href="#i-server"/></svg><b>Nginx</b><small>Reverse proxy</small></div>
+        <div class="archi-arrow"><svg><use href="#i-arrow-long"/></svg>&nbsp;</div>
+        <div class="archi-node"><svg><use href="#i-cloud"/></svg><b>Nextcloud</b><small>MariaDB · Redis</small></div>
+        <div class="archi-arrow"><svg><use href="#i-arrow-long"/></svg>NFS</div>
+        <div class="archi-node"><svg><use href="#i-drive"/></svg><b>NAS</b><small>Fichiers utilisateurs</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SÉCURITÉ ============ -->
+<section class="section" id="securite">
+  <div class="container split">
+    <div class="reveal">
+      <span class="kicker">Sécurité</span>
+      <h2>La confidentialité n'est pas une option</h2>
+      <p>Vos données ne sont jamais confiées à un hébergeur tiers. Chaque couche de l'infrastructure est configurée pour réduire la surface d'attaque.</p>
+      <ul class="checklist">
+        <li><span class="ck"><svg><use href="#i-check"/></svg></span><div><b>Chiffrement de bout en bout du transport</b><span>Toutes les connexions passent en HTTPS (TLS 1.2 / 1.3).</span></div></li>
+        <li><span class="ck"><svg><use href="#i-check"/></svg></span><div><b>Double authentification</b><span>Codes TOTP compatibles avec toutes les applis d'authentification.</span></div></li>
+        <li><span class="ck"><svg><use href="#i-check"/></svg></span><div><b>Protection anti-force brute</b><span>Les tentatives de connexion répétées sont automatiquement ralenties.</span></div></li>
+        <li><span class="ck"><svg><use href="#i-check"/></svg></span><div><b>Sauvegardes quotidiennes</b><span>Fichiers, base de données et configuration sauvegardés chaque jour.</span></div></li>
+      </ul>
+    </div>
+    <div class="shield-card reveal">
+      <div class="big"><svg><use href="#i-shield"/></svg></div>
+      <h3>Infrastructure souveraine</h3>
+      <p>Matériel, réseau et données sous votre seule responsabilité.</p>
+      <div class="shield-list">
+        <div>Port exposé <span class="pill-ok">443 uniquement</span></div>
+        <div>Accès SSH / administration <span class="pill-ok">LAN uniquement</span></div>
+        <div>Secrets hors du code <span class="pill-ok">.env privé</span></div>
+        <div>Données hébergées <span class="pill-ok">Sur site</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARATIF ============ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Comparatif</span>
+      <h2>Pourquoi choisir un cloud souverain ?</h2>
+    </div>
+    <div class="table-wrap reveal">
+      <table class="compare">
+        <thead>
+          <tr><th>Critère</th><th class="us" data-brand>Cloud Souverain</th><th>Cloud public grand public</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Espace de stockage</td><td class="us">Illimité (selon vos disques)</td><td>Quota selon l'abonnement</td></tr>
+          <tr><td>Localisation des données</td><td class="us">Dans vos locaux</td><td>Datacenters du fournisseur</td></tr>
+          <tr><td>Coût par utilisateur</td><td class="us">Aucun</td><td>Abonnement mensuel</td></tr>
+          <tr><td>Contrôle des accès</td><td class="us"><span class="yes">Total</span></td><td><span class="no">Partiel</span></td></tr>
+          <tr><td>Code source</td><td class="us"><span class="yes">Open source</span></td><td><span class="no">Propriétaire</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">FAQ</span>
+      <h2>Questions fréquentes</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal">
+        <summary>Comment obtenir un compte ?</summary>
+        <p>Les comptes sont créés par l'administrateur du service. Contactez-le pour recevoir vos identifiants, puis cliquez sur « Se connecter ».</p>
+      </details>
+      <details class="reveal">
+        <summary>Y a-t-il vraiment une limite de stockage ?</summary>
+        <p>Aucune limite logicielle n'est imposée par défaut : l'espace disponible dépend uniquement de la capacité du NAS, extensible à tout moment.</p>
+      </details>
+      <details class="reveal">
+        <summary>Puis-je synchroniser mes fichiers sur mon ordinateur ou mon téléphone ?</summary>
+        <p>Oui. Installez le client de bureau ou l'application mobile Nextcloud et indiquez l'adresse du serveur : vos dossiers se synchronisent automatiquement.</p>
+      </details>
+      <details class="reveal">
+        <summary>Que se passe-t-il en cas de panne ?</summary>
+        <p>Les fichiers, la base de données et la configuration sont sauvegardés chaque jour sur le NAS, ce qui permet une restauration rapide du service.</p>
+      </details>
+      <details class="reveal">
+        <summary>Qu'est-ce qu'un « mot de passe d'application » ?</summary>
+        <p>C'est un mot de passe dédié, créé dans Nextcloud (Paramètres › Sécurité), à utiliser dans les applications et sur la page « Mes fichiers ». Il est indispensable si la double authentification est activée.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Reprenez le contrôle de vos données</h2>
+      <p>Connectez-vous à votre espace et retrouvez tous vos fichiers, où que vous soyez.</p>
+      <div class="hero-cta" style="justify-content:center;margin-top:0">
+        <a href="#" class="btn btn-primary btn-lg" data-login>Se connecter <svg><use href="#i-arrow-right"/></svg></a>
+        <a href="fichiers.html" class="btn btn-ghost btn-lg">Gérer mes fichiers</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a href="#" class="logo"><span class="logo-mark"><svg><use href="#i-cloud"/></svg></span><span data-brand>Cloud Souverain</span></a>
+        <p>Le stockage de fichiers privé, sans limite, hébergé sur votre propre infrastructure.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul>
+          <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+          <li><a href="#fonctionnement">Architecture</a></li>
+          <li><a href="#securite">Sécurité</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Accès</h4>
+        <ul>
+          <li><a href="#" data-login>Se connecter</a></li>
+          <li><a href="fichiers.html">Mes fichiers</a></li>
+          <li><a href="https://nextcloud.com/install/#install-clients" target="_blank" rel="noopener">Applications</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><span data-contact>contact@exemple.fr</span></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> <span data-brand>Cloud Souverain</span> — Projet Adriano · Alexandra · Berk</span>
+      <span>Propulsé par Nextcloud · Hébergé sur site</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

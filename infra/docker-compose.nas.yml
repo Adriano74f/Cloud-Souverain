@@ -1,0 +1,11 @@
+# Surcharge production : les fichiers utilisateurs sont stockés sur le NAS Synology (NFS, port 2049).
+# Usage : docker compose -f docker-compose.yml -f docker-compose.nas.yml up -d
+# Prérequis côté NAS : dossier partagé avec règle NFS autorisant l'IP de la VM (lecture/écriture, squash "aucun").
+
+volumes:
+  ncdata:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=${NAS_IP},nfsvers=4.1,rw,hard"
+      device: ":${NAS_EXPORT}"

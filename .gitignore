@@ -1,0 +1,13 @@
+# Secrets — ne jamais versionner
+infra/.env
+infra/nginx/certs/*
+!infra/nginx/certs/.gitkeep
+
+# Sauvegardes et données locales
+infra/backups/
+infra/data/
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
