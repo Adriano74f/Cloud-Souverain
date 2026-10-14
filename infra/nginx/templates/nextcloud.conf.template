@@ -1,4 +1,4 @@
-# Les variables ${NC_DOMAIN} et ${SITE_ORIGIN} sont remplacées au démarrage du conteneur nginx.
+# Les variables ${NC_DOMAIN}, ${SITE_ORIGIN} et ${SITE_URL} sont remplacées au démarrage du conteneur nginx.
 
 # Origines autorisées à appeler WebDAV/OCS depuis le navigateur (site vitrine + développement local)
 map $http_origin $cors_origin {
@@ -66,6 +66,25 @@ server {
         add_header Vary Origin always;
         add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
+        proxy_pass http://nextcloud_backend;
+    }
+
+    # Page de connexion Nextcloud : ajout d'un bouton « Retour au site » (aussi affiché après déconnexion)
+    location = /login {
+        # sub_filter ne peut modifier qu'une réponse non compressée.
+        # Redéclarer un proxy_set_header annule l'héritage : on remet donc tous ceux du bloc server.
+        proxy_set_header Accept-Encoding "";
+        proxy_set_header Connection "";
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $http_host;
+
+        sub_filter_once on;
+        sub_filter '</body>' '<a href="${SITE_URL}" style="position:fixed;top:16px;left:16px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.94);color:#0b1220;font:600 14px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(11,18,32,.18)">&larr; Retour au site</a></body>';
+
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
         proxy_pass http://nextcloud_backend;
     }
 

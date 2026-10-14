@@ -95,6 +95,8 @@ services:
     environment:
       NC_DOMAIN: ${NC_DOMAIN}
       SITE_ORIGIN: ${SITE_ORIGIN}
+      # Lien « Retour au site » de la page de connexion Nextcloud
+      SITE_URL: ${SITE_URL:-${SITE_ORIGIN}}
     volumes:
       - ./nginx/templates:/etc/nginx/templates:ro
       - ./nginx/certs:/etc/nginx/certs:ro
