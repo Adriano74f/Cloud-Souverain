@@ -5,7 +5,7 @@
 window.CLOUD_CONFIG = {
   // Adresse du serveur Nextcloud (reverse proxy Nginx), sans slash final.
   // Local : "https://localhost"  —  Production : "https://cloud.<domaine>"
-  cloudUrl: "https://localhost",
+  cloudUrl: "https://10.40.10.83",
 
   // Nom affiché du service
   brand: "Cloud Souverain",
